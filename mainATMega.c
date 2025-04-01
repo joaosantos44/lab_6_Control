@@ -143,7 +143,7 @@ void initUART115200(void){
 	uint16_t ubrr = F_CPU / 16 / 115200 - 1; // Calcula el baudrate para 115200
 	UBRR0H = (ubrr >> 8);   // Parte alta del baud rate
 	UBRR0L = ubrr;          // Parte baja del baud rate
-	UCSR0B = (1 << RXEN0) | (1 << TXEN0) | (1 << RXCIE0); // Habilita TX, RX e interrupción RX
+	UCSR0B = (1 << RXEN0) | (1 << TXEN0) | (1 << RXCIE0); // Habilita TX, RX e interrupciÃ³n RX
 	UCSR0C = (1 << UCSZ01) | (1 << UCSZ00); // 8 bits de datos
 }
 
@@ -206,7 +206,7 @@ void floatToString(float num, char *str, int preci) {
 */
 
 
-// Envía un caracter
+// EnvÃ­a un caracter
 void MandarP(char letra){
 	while(!(UCSR0A & (1 << UDRE0)));
 	UDR0 = letra;
@@ -220,14 +220,14 @@ char ReceivP(void) {
 }
 
 
-// Envía una cadena de texto
+// EnvÃ­a una cadena de texto
 void CadenChar(const char *str) {
 	while (*str) {
 		MandarP(*str++);
 	}
 }
 
-// Convierte un número a binario
+// Convierte un nÃºmero a binario
 void Binario(uint8_t valor) {
 	for (int i = 7; i >= 0; i--) {
 		MandarP((valor & (1 << i)) ? '1' : '0');
@@ -242,12 +242,12 @@ void UART_SendHex(uint8_t value) {
 }
 
 int InterDeTeclas() {
-	char buffer[4] = {0};   // Almacena hasta 3 dígitos
+	char buffer[4] = {0};   // Almacena hasta 3 dÃ­gitos
 	uint8_t index = 0;
 	char received;
 
 	while (1) {
-		while (!(UCSR0A & (1 << RXC0)));  // Espera un dato (¡Aquí puede trabarse!)
+		while (!(UCSR0A & (1 << RXC0)));  // Espera un dato (Â¡AquÃ­ puede trabarse!)
 		
 		received = UDR0;  // Lee el dato recibido
 		MandarP(received); // Imprime lo que recibe (eco)
@@ -257,9 +257,9 @@ int InterDeTeclas() {
 			break;
 		}
 
-		// Acepta solo dígitos (0-9)
+		// Acepta solo dÃ­gitos (0-9)
 		if (received >= '0' && received <= '9' && index < 3) {
-			buffer[index++] = received;  // Guarda el número
+			buffer[index++] = received;  // Guarda el nÃºmero
 		}
 	}
 
